@@ -5,10 +5,7 @@ import java.awt.event.ActionListener;
 import java.util.Timer;
 
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 
 /**
  *
@@ -16,18 +13,16 @@ import java.util.Timer;
  */
 public class Board extends javax.swing.JPanel {
     
-    public static final int INITIAL_DELTA_TIME = 600;
-    private int numRows = 25;
-    private int numCols = 25;
+    private final int INITIAL_DELTA_TIME = 400;
+    private static int numRows = 25;
+    private static int numCols = 25;
     private Snake snake;
     private Food food;
     private Food specialFood;
     private Timer snakeTimer;
     private Timer specialFoodTimer;
     private int deltaTime;
-    private Node[][] playBoard;
-    private javax.swing.Timer timer;
-
+    private ScoreBoard scoreBoard;
 
     /**
      * Creates new form Board
@@ -39,36 +34,11 @@ public class Board extends javax.swing.JPanel {
     
     private void myInit() {
         // Finish this method
-        playBoard = new Node[numRows][numCols];
-        deltaTime = INITIAL_DELTA_TIME;
-         timer = new javax.swing.Timer(deltaTime, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                if(canMove(currentShape, currentRow+1, currentCol)) {
-                    currentRow++;
-                    newRepainter.repaint();
-                } else {
-                  
-                    moveShapeToPlayBoard();
-                    if(!canMove(currentShape, 1, NUM_COLS/2)) {
-                    gameOver = true;
-                    timer.stop();
-                    }
-                    if(!gameOver) {
-                    checkFullRows();
-                    
-                    addNewShape();
-                    record = scoreBoard.getScore();
-                    Player p1 = new Player(getName(), record);    
-                    }
-                }
-            }
-
-            private void moveShapeToPlayBoard() {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-        
-             
+        playBoard = new Node[numRows][numCols]; 
+    }
+    
+    public void setScoreBoard(ScoreBoard scoreBoard){
+        this.scoreBoard = scoreBoard;
     }
     
     public Board(int numRows, int numCols) {
@@ -89,27 +59,9 @@ public class Board extends javax.swing.JPanel {
         // Finish this method
         // Paint the Snake and the food here
     }
-    private boolean canMove(Shape shape, int newRow, int newCol) {
-        int leftBorder = newCol + shape.minX();
-        int rigthBorder = newCol + shape.maxX();
-        int bottomBorder = newRow + shape.maxY();
-        int topBorder = newRow + shape.minY();
-        if (leftBorder < 0 || rigthBorder >= numCols || bottomBorder >= numRows) {
-
-            return false;
-        }
-            for (int i = 0; i < 4; i++) {
-                int x = newCol + shape.getX(i);
-                int y = newRow + shape.getY(i);
-
-                if (y >= 0) {
-                    if (playBoard[y][x] != Tetrominoes.NoShape) {
-                        return false;
-                    }
-                }
-
-            }
-            return true;
+    
+    
+   
     }
 
     /**

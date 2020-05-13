@@ -31,16 +31,19 @@ public class Snake {
     
     public boolean canMove(int row, int col) {
         // Finish this method
-        return true;
+         if(row >= 0 || col >= 0 || row <= AspectsConfig.NUM_ROWS || col <= AspectsConfig.NUM_COLS){
+            return true;    
+        }
+        return false;
     }
     
     public void paint(Graphics g, int squareWidth, int squareHeight) {
         // Finish this method. Call Util.drawSquare()
-        boolean colorHead = false;
+        boolean headColor = false;
             for (Node node: body) {
-                if(!colorHead) {
+                if(!headColor) {
                     Util.drawSquare(g, squareWidth, squareHeight, node.getCol(),node.getRow() , Color.green);
-                    colorHead = true;
+                    headColor = true;
                 } else {
                      Util.drawSquare(g, squareWidth, squareHeight, node.getCol(),node.getRow() , Color.red);
                 }
@@ -89,6 +92,14 @@ public class Snake {
     public void moveLeft() {
         body.add(0, new Node(body.get(0).getRow(), body.get(0).getCol() - 1));
         body.remove(body.size() - 1);
+    }
+    
+    public Direction getDirection() {
+        return direction;
+    }
+    
+    public void setDirection(Direction direction) {
+        this.direction = direction;
     }
     
     
